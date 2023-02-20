@@ -1,0 +1,13 @@
+\item Write True/False for the following conditional independence statements. Justify clearly your answer by showing active/blocked trails as necessary and appropriate rules for them to be active/blocked. [No coding required for this question. Each sub-question has \textbf{2 points}]
+
+\begin{enumerate}
+  \item $A \perp G \mid \{F\}$\\
+        False. $A\not\perp G$. There is a V-structure between $A$ and $G$.
+        $$A \rightarrow B \rightarrow D \leftarrow G$$
+        Given $F$ and thus implying we know $D$, $A$ and $G$ are dependent.
+  \item $A \perp G \mid \{E\}$\\
+        True. There is no active path from $A$ to $G$.
+  \item $A \perp E \mid \{C\}$
+  \item $A \perp E \mid \{C, D\}$
+  \item $A \perp D \mid \{B, E\}$
+\end{enumerate}

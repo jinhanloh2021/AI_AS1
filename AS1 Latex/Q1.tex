@@ -1,0 +1,61 @@
+\item The following algorithm determines whether an element is within a sorted array.
+\begin{lstlisting}[language = Java, firstnumber = last , escapeinside={(*@}{@*)}]
+// parameterized version
+public static boolean binarySearch(int[] data, int target, int low, int high) {
+    if (low > high)
+        return false; // interval empty; no match
+    else {
+        int mid = (low + high) / 2;
+        if (target == data[mid])
+            return true; // found a match
+        else if (target < data[mid])
+            return binarySearch(data, target, low, mid - 1); // recur left
+        else
+            return binarySearch(data, target, mid + 1, high); // recur right
+        }
+    }
+
+
+// Demonstration of a public wrapper function with cleaner signature
+public static boolean binarySearch(int[] data, int target) {
+    return binarySearch(data, target, 0, data.length - 1);
+}
+\end{lstlisting}
+Suppose that you are given the following array as input: \\\lstinline{data = [2, 5, 7, 8, 10, 19, 20, 23, 25, 30, 35, 36];}
+\begin{enumerate}
+    \item Draw the recursion trace for \ \lstinline{binarySearch(data, 33)}.
+    \item What is the Big O complexity of binary search above? Justify it.
+    \item How would you make it even more efficient?
+    \item Describe a modification that will return the index of the target element or $-1$ if not found.
+\end{enumerate}
+\begin{center}
+    % \includegraphics[scale=0.1]{Q1_recursion_diagram.png}
+\end{center}
+
+\begin{enumerate}
+    \addtocounter{enumii}{1}
+    \item
+          Binary search is $\mathcal{O}(log{n})$. After every recursive call, the problem halves in size. For an array of size $n$, we call \lstinline{binarySearch()} on array of size $n, \frac{n}{2}, \frac{n}{4} \ldots$ because the high or low halves after each recursive call. The body of \lstinline{binarySearch()} only contains primitive operations, hence we can conclude that the growth rate of \lstinline{binarySearch()} is $\mathcal{O}(log{n})$.
+
+    \item
+          Don't know...
+
+    \item Change the return type of binarySearch to int. When found a match, return the index of the target, when no match return -1.
+
+          \begin{lstlisting}[language = Java, firstnumber = last , escapeinside={(*@}{@*)}]
+public static int binarySearch(int[] data, int target, int low, int high) { 
+    if (low > high)
+        return -1; // interval empty; no match
+    else {
+        int mid = (low + high) / 2;
+        if (target == data[mid])
+            return mid; // found a match; return index of target element 
+        else if (target < data[mid])
+            return binarySearch(data, target, low, mid - 1);
+        else
+            return binarySearch(data, target, mid + 1, high);
+        }
+    }
+\end{lstlisting}
+\end{enumerate}
+\clearpage

@@ -1,0 +1,55 @@
+\item Suppose that you wish to solve puzzles of the following form:
+\begin{align*}
+    fish              & = bird + cat \\
+    fish + cat        & = 4 birds    \\
+    fish + bird + cat & = 10         \\
+\end{align*}
+The task is to assign a unique integer between 0 to 9 to each variable fish, cat, or bird so that the above equations hold true. \\
+You chance upon a recursive algorithm below described in pseudocode.
+\begin{center}
+    % \includegraphics[scale=1]{Q2_Pseudocode.jpg}
+\end{center}
+\begin{enumerate}
+
+    \item Specify the arguments $k, S, U$ to solve the puzzle involving \emph{fish}, \emph{cat}, and \emph{bird} above.
+          \begin{align*}
+              k & =3                       \\
+              S & =[\ ]                    \\
+              U & =\{0,1,2,3,4,5,6,7,8,9\} \\
+          \end{align*}
+          \clearpage
+    \item How would you test whether $S$ is a configuration that solves the puzzle?
+          \\Let $S$ be an array with values
+          \begin{equation*}
+              S=[x,y,z]
+          \end{equation*}
+          We can then check if $S$ satisfies the 3 equations, by mapping the values of $S$ to \emph{fish}, \emph{bird} and \emph{cat}.\\
+          Let
+          \begin{align*}
+              x & =fish \\
+              y & =bird \\
+              z & =cat  \\
+          \end{align*}
+          If the equations
+          \begin{align*}
+              x         & = y + z \\
+              x + z     & = 4y    \\
+              x + y + z & = 10    \\
+          \end{align*}
+          hold true, then S is a valid solution.
+
+    \item What are the values of \emph{fish}, \emph{bird} and \emph{cat} in this case?\
+          \begin{align*}
+              fish  & =5             \\
+              bird  & =2             \\
+              cat   & =3             \\~\\
+              5     & \equiv2+3      \\
+              5+3   & \equiv4\times2 \\
+              5+3+2 & \equiv10       \\
+          \end{align*}
+
+    \item What is the Big O complexity of \lstinline{PuzzleSolve}?\\
+          For set $U$ with a size of $n$, we have a total of $n!$ permutations. From the code, each iteration through $U$ recursively calls the function. So the function will call itself $n$ times on the first recursion, and $n(n-1)$ total times on the second and so forth.\\
+          The total number of function calls is $n!$ which is the total number of permutations of elements in set $U$. Since \lstinline{PuzzleSolve} only contains primitive operations, we can conclude that the function is $\mathcal{O}(n!)$
+\end{enumerate}
+\clearpage

@@ -1,0 +1,173 @@
+\item For each of the following algorithm \lstinline{sum1} to \lstinline{sum4} below:
+\begin{enumerate}
+    \item What is the output when $n=10$ and $k=5$?
+    \item Describe in terms of $n$ and $k$ what the output value will approach as the inputs grow.
+    \item What is the worst complexity?
+\end{enumerate}
+
+%--------------------sum1---------------------%
+\lstinline{//sum1}
+\begin{lstlisting}
+public static double sum1(int n){
+    if (n == 0)
+        return n;
+    else
+        return (double)n + sum1(n-1);
+}
+\end{lstlisting}
+In \lstinline{sum1}, $f_1(n)$ can be defined recursively as such
+\begin{align*}
+    f_1(n) & =
+    \begin{cases}
+        0\hphantom{-\sqrt{-}} & \text{if \ } n=0, \\
+        n+f_1(n-1)            & \text{if \ } n>0, \\
+    \end{cases} \\
+\end{align*}
+\lstinline{sum1} simply adds all numbers from n till 0.
+\begin{align*}
+    f_1(n) & =n+(n-1)+(n-2)+\ldots+1+0 \\[5pt]
+           & =\frac{n(n+1)}{2}         \\
+\end{align*}
+When $n=10$,
+\begin{align*}
+    f_1(n) & =f_1(10)            \\[5pt]
+           & =10+9+\ldots +1+0   \\[5pt]
+           & =\frac{10(10+1)}{2} \\[5pt]
+           & =55                 \\
+\end{align*}
+Output value approaches $\frac{n(n+1)}{2}$ as $n$ grows.\\[5pt]
+Worst case complexity is $\mathcal{O}(n)$.
+\clearpage
+
+
+%--------------------sum2---------------------%
+\lstinline{//sum2}
+\begin{lstlisting}
+public static double sum2(int n){
+    if (n == 0)
+        return n;
+    else
+        return (double)n + sum2(n/2);
+}
+\end{lstlisting}
+In \lstinline{sum2}, $f_2(n)$ can be defined recursively as such
+\begin{align*}
+    f_2(n) & =
+    \begin{cases}
+        0                                                      & \text{if \ } n=0, \\
+        n+f_2\left(\left\lfloor\frac{n}{2}\right\rfloor\right) & \text{if \ } n>0, \\
+    \end{cases} \\
+\end{align*}
+When $n=10$,
+\begin{align*}
+    f_2(10) & =10 + f_2\left(\frac{10}{2}\right) \\
+            & =10+f_2(5)                         \\
+            & =10+5+f_2(2)                       \\
+            & =10+5+2+1+0                        \\
+            & =18                                \\
+\end{align*}
+The function adds half of its input value for every recursive call, until the input becomes 0.
+Let $a$ be the largest integer such that $\frac{n}{2^a}\ge1$. Then $a + 1$ is the number of iterations of \lstinline{sum2},
+while ignoring the floor function.
+\begin{align*}
+    f_2(n)        & \approx n+\frac{n}{2}+\frac{n}{4}+\ldots+\frac{n}{2^a} \\
+                  & \approx n+(n-1)                                       \\
+                  & =2n-1                                                 \\
+    \frac{n}{2^a} & \ge 1                                                 \\
+    n             & \ge 2^a                                               \\
+    \log{n}       & \ge a\log{2}                                          \\
+    a             & \le \log{n}                                           \\
+\end{align*}
+The worst case complexity is $\mathcal{O}(\log{n})$. The input value $n$ halves on every recursion.
+\clearpage
+
+%--------------------sum3---------------------%
+\lstinline{//sum3}
+\begin{lstlisting}
+public static double sum3(int n, int k){
+    if (k == 0)
+        return n;
+    else
+        return (double)n + sum3(n, k-1);
+}
+\end{lstlisting}
+In \lstinline{sum3}, $f_3(n,k)$ can be defined recursively as such
+\begin{align*}
+    f_3(n,k) & =
+    \begin{cases}
+        n              & \text{if \ } k=0, \\
+        n+f_3(n,\ k-1) & \text{if \ } k>0, \\
+    \end{cases} \\
+\end{align*}
+We can see that the number of additions is $k+1$.
+\begin{center}
+    Adds $k+1$ times
+    \begin{align*}
+        f_3(n,k) & =n+n+\ldots+n \\
+                 & =(k+1)n       \\
+                 & =nk+n
+    \end{align*}
+\end{center}
+When $n=10$ and $k=5$,
+\begin{align*}
+    f_3(10, 5) & =10(5)+10 \\
+               & =60
+\end{align*}
+The worst case complexity is $\mathcal{O}(k)$.
+\clearpage
+
+%--------------------sum4---------------------%
+\lstinline{//sum4}
+\begin{lstlisting}
+public static double sum4(int n, int k){
+    if (k == 0)
+        return n;
+    else
+        return (double)n + sum4(n, k/2);
+}
+\end{lstlisting}
+In \lstinline{sum3}, $f_4(n,k)$ can be defined recursively as such
+\begin{align*}
+    f_4(n,k) & =
+    \begin{cases}
+        n                                                        & \text{if \ } k=0, \\
+        n+f_4\left(n,\left\lfloor\frac{k}{2}\right\rfloor\right) & \text{if \ } k>0, \\
+    \end{cases} \\
+\end{align*}
+Function \lstinline{sum4} adds $n$ for some $a$ number of times. Then\\
+when k=6
+\begin{center}
+    Let $a$ be the number of additions in \lstinline{sum4}.
+    \begin{align*}
+        f_4(n,6) & =n+f_4\left(n,\left\lfloor\frac{6}{2}\right\rfloor\right)     \\
+                 & =n+f_4(n, 3)                                                  \\
+                 & =n+n+f_4\left(n,\left\lfloor\frac{3}{2}\right\rfloor\right)   \\
+                 & =n+n+f_4(n,1)                                                 \\
+                 & =n+n+n+f_4\left(n,\left\lfloor\frac{1}{2}\right\rfloor\right) \\
+                 & =n+n+n+f_4(n,0)                                               \\
+                 & =n+n+n+n                                                      \\
+                 & =4n                                                           \\
+        a        & =4
+    \end{align*}
+\end{center}
+Then it can be seen that
+\begin{align*}
+    a & =1+\left\lfloor\log_2{k}\right\rfloor+1 \\
+      & =2+\left\lfloor\log_2{k}\right\rfloor   \\
+\end{align*}
+Where $\left\lfloor\log_2{k}\right\rfloor$ is the maximum number of times $k$ can be divided by 2 before $k\le1$. We add 2 for the $n$ in the first recursion and for the $n$ in the base case.\\
+Therefore
+\begin{align*}
+    f_4(n,k) & =an                                      \\
+             & =(2+\left\lfloor\log_2{k}\right\rfloor)n \\
+             & =2n+\left\lfloor\log_2{k}\right\rfloor n \\
+\end{align*}
+When $n=10$ and $k=5$,
+\begin{align*}
+    f_4(10, 5) & =2(10)+\left\lfloor\log_2{5}\right\rfloor(10) \\
+               & =20+\left\lfloor2.321928095\right\rfloor(10)  \\
+               & =20+20                                        \\
+               & =40                                           \\
+\end{align*}
+The worst case complexity is $\mathcal{O}(\log{n})$, as the input $n$ halves on every recursion.
+\clearpage

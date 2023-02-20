@@ -1,0 +1,97 @@
+\item You are given the following recursive method:
+\begin{lstlisting}
+public static long negativeFibonacci(int n){
+    if (n <= 1)
+        return n;
+    else
+        return 0 - negativeFibonacci(n-2) - negativeFibonacci(n-1);
+}
+\end{lstlisting}
+\begin{enumerate}
+    \item What is the output of \lstinline{negativeFibonacci(567)}?
+          Let negative fibonacci function be $f(n)$.
+          \begin{align*}
+              f(n) & =0-f(n-2)-f(n-1)
+          \end{align*}
+          Using $n=3$,
+          \begin{align}
+              f(3) & =0-f(3-2)-f(3-1)\nonumber          \\
+                   & =0-f(1)-f(2)\nonumber              \\
+                   & =0-f(1)-(0-f(2-2)-f(2-1))\nonumber \\
+                   & =0-f(1)-(0-f(0)-f(1))\nonumber     \\
+                   & =-f(1)+f(0)+f(1)                   \\
+                   & =f(0)\nonumber                     \\
+                   & =0\nonumber                        \\~\nonumber\\\nonumber
+          \end{align}
+          We can see that the function $f(1)$ cancels itself out in (1). By repeated use of definition of the negative Fibonacci sequence, for each integer $n\ge 1$
+          \begin{align*}
+              f(n) & =0-f(n-2)-f(n-1)                \\
+                   & =0-f(n-2)-(0-f(n-1-2)-f(n-1-1)) \\
+                   & =0-f(n-2)-(0-f(n-3)-f(n-2))     \\
+                   & =0-f(n-2)+f(n-3)-f(n-2)         \\
+                   & =f(n-3)                         \\
+          \end{align*}
+          It can be seen that for each integer $n\ge 1$, $f(n)=f(n-3)$. This cascades till the base case $n\le 1$, then $f(n)=n$. We have three possible base cases, where $n\equiv n\bmod 3$.
+          \begin{align*}
+              f(n) & =f(n-3)      \\
+                   & =f(n\bmod 3) \\
+          \end{align*}
+          \begin{align*}
+              f(n) & =
+              \begin{cases}
+                  0\hphantom{-\sqrt{-}} & \text{if \ } n\bmod 3=0, \\
+                  1                     & \text{if \ } n\bmod 3=1, \\
+                  -1                    & \text{if \ } n\bmod 3=2, \\
+              \end{cases} \\
+          \end{align*}
+          Given $n=567$,
+          \begin{align*}
+              f(n) & =f(567)        \\
+                   & =f(567\bmod 3) \\
+                   & =f(0)          \\
+                   & =0             \\
+          \end{align*}
+    \item What is the worst case complexity of \lstinline{negativeFibonacci(567)}? Explain your answer.\\
+          The worst case complexity is $\mathcal{O}(2^n)$. Although we have mathematically proven that $f(n)$ decomposes to $f(n-3)$, the function doesn't make use of that equivalence. Instead, it unconditionally calls itself twice per recursion. This is the same as the \lstinline{fibonacciBad} in the lecture slides.\\
+          Proof by induction:
+          \begin{align*}
+               & \text{Let}\ g(n) \ \text{be the number of additions.}       \\
+               & \text{Let}\ P(n): g(n)<c(2^n) \hspace{1cm}\text{where } c>0 \\
+          \end{align*}
+          Base case:
+          \begin{align*}
+              g(0)=0             & <2^0=1   \\
+              g(1)=0             & <2^1=2   \\
+              g(2)=0-g(0)-g(1)=0 & <2^{2}=4 \\
+          \end{align*}
+          Base case is true.\\
+          Inductive step: Assume $P(n)$ is true for $n-3$, $n-2$, $n-1$, for all $n\ge3$,
+          \setcounter{equation}{0}
+          \begin{align}
+              g(n)   & =0-g(n-2)-g(n-1) \\
+              g(n-1) & =0-g(n-3)-g(n-2)
+          \end{align}
+          From (1) and (2)
+          \begin{align}
+              g(n-1) & =g(n)+g(n-1)-g(n-3)\nonumber \\
+              g(n)   & =g(n-3)                      \\\nonumber
+          \end{align}
+          From assumption $P(n-3)$ and $(3)$,
+          \begin{align*}
+              g(n-3) & \le2^{n-3}           \\~\\
+              g(n)   & =g(n-3)              \\
+                     & \le2^{n-3}           \\
+                     & =2^n\cdot2^{-3}      \\
+                     & =\frac{1}{8}\cdot2^n \\
+                     & \le2^n               \\
+          \end{align*}
+          \begin{align*}
+              P(n-3) & \longrightarrow P(n) \\~\\
+              P(3-3) & \longrightarrow P(0) \\
+              P(4-3) & \longrightarrow P(1) \\
+              P(5-3) & \longrightarrow P(2) \\
+          \end{align*}
+          Hence $P(n)$ true for all $n\ge0$.\\
+          The function \lstinline{negativeFibonacci} is $\mathcal{O}(2^n)$ where $c=1$ and $n_0=1$.
+\end{enumerate}
+\clearpage

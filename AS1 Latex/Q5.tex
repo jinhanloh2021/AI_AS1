@@ -1,0 +1,21 @@
+\item Describe a way to use recursion to compute the sum of all the elements in an $n\times n$ (two dimensional) array of integers. What is the complexity?\\[10pt]
+
+\begin{lstlisting}
+//Sum 1D array
+public static int sumX(int x, int[] arr){
+    if(x == 0)
+        return arr[0];
+    else
+        return arr[x] + sumX(x-1, arr);
+}
+
+//Sum 2D array
+public static int sumAll(int y, int[][] arr, int n){
+    if(y == 0)
+        return sumX(n-1, arr[0]);
+    else
+        return sumX(n-1, arr[y]) + sumAll(y-1, arr, n);
+}
+\end{lstlisting}
+
+The complexity is $\mathcal{O}(n^2)$. The code is analagous to a nested for loop.
