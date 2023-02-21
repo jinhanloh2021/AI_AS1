@@ -87,7 +87,7 @@
           \end{tabular}
           \egroup
         \end{center}
-        For values of $n = \{1, 2\}$ as each person has two test kits.
+        For values of $n \in \{1, 2\}$ as each person has two test kits.
   \item Are the results of the two tests dependent or independent given the evidence that the Covid Status is known? Justify your answer.\\[5pt]
         There is a common cause structure $R_1 \leftarrow C \rightarrow R_2$ which couples $R_1$ and $R_2$. But given the COVID status $C$, it decouples $R_1$ and $R_2$. Thus they are independent.
   \item Assume you took both tests at home. After being tested twice in a matter of minutes, the first test was positive and the second negative. What is the probability that you actually have COVID19? Show your analytical computations.\\[5pt]
@@ -101,9 +101,50 @@
           P(C=1\mid R_1=1, R_2=0) & =\frac{P(R_1=1, R_2=0\mid C=1)P(C=1)}{P(R_1=1, R_2=0)}          \\[5pt]
                                   & =\frac{P(R_1=1\mid C=1)P(R_2=0\mid C=1)P(C=1)}{P(R_1=1, R_2=0)}
         \end{align*}
+        To find $P(R_1=1\mid C=1)$ and $P(R_2=0\mid C=1)$, marginalise over the manufacturer $M$.
         \begin{align*}
-            & P(C=c, M_1=m_1, M_2=m_2, R_1=r_1, R_2=r_2)                                                      \\
-          = & P(C=c)\cdot P(M_1=m_1) \cdot P(M_2=m_2) \cdot P(R_1=r_1\mid C, M_1) \cdot P(R_2=r_2\mid C, M_2)
+          P(R_1=1\mid C=1) & =\frac{0.7+0.8+0.9}{(0.1+0.2+0.3)+(0.7+0.8+0.9)} \\[5pt]
+                           & =0.8                                             \\
+          P(R_2=0\mid C=1) & = 1-0.8                                          \\
+                           & =0.2
+        \end{align*}
+        Thus we have solved for numerator,
+        \begin{align*}
+          P(R_1=1\mid C=1)P(R_2=0\mid C=1)P(C=1) & = (0.8)(0.2)(0.3) \\
+                                                 & =0.048
+        \end{align*}
+        To solve for the denominator, it is the {\it hard part}. We cannot use marginalisation as there are too many varibales to sum over. We can use variable elimination instead. The joint distribution is
+        \begin{align*}
+            & P(C=c, M_1=m_1, M_2=m_2, R_1=r_1, R_2=r_2)                              \\
+          = & P(C=c)P(M_1=m_1) P(M_2=m_2) P(R_1=r_1\mid C, M_1) P(R_2=r_2\mid C, M_2)
+        \end{align*}
+        Then,
+        \begin{align*}
+            & P(R_1=1, R_2=0)                                                                                                           \\[5pt]
+          = & \sum_{C, M_1, M_2}P(C=c)P(M_1=m_1) P(M_2=m_2) P(R_1=1\mid C, M_1) P(R_2=0\mid C, M_2)                                     \\[5pt]
+          = & \sum_{C, M_1}P(C=c)P(M_1=m_1)P(R_1=1\mid C,M_1)\underbrace{\sum_{M_2}P(M_2=m_2)P(R_2=0\mid C, M_2)}_{\tau_1(R_2=0\mid C)} \\[5pt]
+          = & \sum_{C}P(C=c)\tau_1(R_2=0\mid C)\underbrace{\sum_{M_1}(M_1=m_1)P(R_1=1\mid C,M_1)}_{\tau_2(R_1=1\mid C)}                 \\[5pt]
+          = & \sum_{C}P(C=c)\tau_1(R_2=0\mid C)\tau_2(R_1=1\mid C)                                                                      \\[5pt]
+        \end{align*}
+        Calculate the case where $C=0$,
+        \begin{align*}
+          P(R_1=1 \mid C=0) & = \frac{0.01+0.05+0.09}{(0.01+0.05+0.09)+(0.99+0.95+0.91)} \\
+                            & = 0.05                                                     \\
+          P(R_1=0 \mid C=0) & = 1 - 0.05                                                 \\
+                            & =0.95                                                      \\
+        \end{align*}
+        Then using both cases,
+        \begin{align*}
+          P(R_1=1, R_2=0) & = \sum_{C}P(C=c)\tau_1(R_2=0\mid C)\tau_2(R_1=1\mid C) \\[5pt]
+                          & =(0.7)(0.95)(0.05) + (0.3)(0.8)(0.2)                   \\
+                          & =0.08125                                               \\
+        \end{align*}
+        Hence,
+        \begin{align*}
+          P(C=1\mid R_1=1, R_2=0) & =\frac{P(R_1=1\mid C=1)P(R_2=0\mid C=1)P(C=1)}{P(R_1=1, R_2=0)} \\[5pt]
+                                  & =\frac{0.048}{0.08125}                                          \\[5pt]
+                                  & = \frac{192}{325}                                               \\[5pt]
+                                  & \approx 0.59                                                    \\
         \end{align*}
 \end{enumerate}
 
