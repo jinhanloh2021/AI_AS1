@@ -1,0 +1,14 @@
+\item In this question, we will learn how to use transfer learning in the context of CNNs.
+
+\begin{enumerate}
+  \item Create the LeNet-5 CNN architecture using Keras API (see code skeleton for the number
+        and types of layers to create). Train the model on the MNIST dataset.
+  \item What is the accuracy of your trained LeNet-5 model on the MNIST training dataset? Try
+        to get an accuracy above 90\%.
+  \item Download the \lstinline{binary_alpha_digits} dataset using tfds, and split the dataset into 20\%
+        testing data and 80\% training data.
+  \item As the dimension of images in the \lstinline{binary_alpha_digits} are different from the image size in MNIST dataset, upscale images in \lstinline{binary_alpha_digits} to match the image size in MNIST dataset using OpenCV. This is required as we would like to use the LeNet trained using the MNIST dataset for \lstinline{binary_alpha_digits}.
+  \item Remove the final output layer of LeNet you have trained on MNIST (to do this, please check the flag "include top" in Keras and the tensorflow link for transfer learning noted earlier)
+  \item After removing the final output layer, extend your trained LeNet model by adding at least one hidden layer (dense, convolution, max pooling or any other type of layer). Also attach one final output layer. In this part, you are free to explore and decide how many hidden layers to add, their type, the number of nodes in each layer and the activation function yourself. Keep in mind, the output layer must have the appropriate number of nodes and activation function that matches the given task.
+  \item Train the model and show accuracy on the testing dataset (of \lstinline{binary_alpha_digits}). You can either fix all the weights of your MNIST-trained LeNet model and train only the layers you have added, or train the whole network again. Choose the setting that gives you higher accuracy given the computational resources. Check link https://keras.io/getting-started/faq/\#how-can-i-freeze-keras-layers. Try to achieve a testing data accuracy of 50\% or more (you can report the best over multiple runs). Please make sure that in your submitted jupypter notebook, logs show your best run. Note: some variation between runs is expected, with the true accuracy being somewhere in between. You are not required to reliably get 50 percent accuracy over all runs, but try to demonstrate from the log files that one run achieved 50 percent.
+\end{enumerate}
