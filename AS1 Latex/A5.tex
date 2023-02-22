@@ -74,7 +74,7 @@
             transfer_model.add(layer)
 
           #Freeze layers
-          transfer_model.get_layer('conv2d').trainable = True
+          transfer_model.get_layer('conv2d').trainable = False
 
           print(f"All layers: {list(layer.name for layer in transfer_model.layers)}.")
           print(f"Frozen layers: {list(layer.name for layer in transfer_model.layers if (not transfer_model.get_layer(layer.name).trainable))}.")
